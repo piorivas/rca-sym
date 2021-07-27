@@ -1,0 +1,4 @@
+#Docker compose setup for PHP 7.4, nginx, mysql5.7 development envinronment
+
+##Instructions
+###Just copy docker-compose.yml, docker/ and .env to your project's root folder
