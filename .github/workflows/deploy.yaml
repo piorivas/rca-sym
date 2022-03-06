@@ -9,9 +9,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - run: docker build -t piorivas/rca-sym-test .
-      - run: docker run -e CI=true piorivas/rca-sym-test npm test
+
+      - name: Setting up containers
+        run: docker-compose up --build -d
+
+      - name: Installing dependencies
+        run: docker-compose exec -T app composer install
+
+      - name: Running migrations
+        run: docker-compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction --env test
+
+      - name: Running fixtures
+        run: docker-compose exec -T app php bin/console doctrine:fixtures:load --no-interaction --env test
+
+      - name: Running tests
+        run: docker-compose exec -T app php bin/phpunit
  
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
