@@ -16,14 +16,14 @@ jobs:
       - name: Installing dependencies
         run: docker-compose exec -T app composer install
 
-      - name: Running migrations
-        run: docker-compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction --env test
+      # - name: Running migrations
+      #   run: docker-compose exec -T app php bin/console doctrine:migrations:migrate --no-interaction --env test
 
-      - name: Running fixtures
-        run: docker-compose exec -T app php bin/console doctrine:fixtures:load --no-interaction --env test
+      # - name: Running fixtures
+      #   run: docker-compose exec -T app php bin/console doctrine:fixtures:load --no-interaction --env test
 
-      - name: Running tests
-        run: docker-compose exec -T app php bin/phpunit
+      # - name: Running tests
+      #   run: docker-compose exec -T app php bin/phpunit
  
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
